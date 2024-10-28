@@ -44,7 +44,6 @@ class Order:
         books_str = ', '.join([str(book) for book in self.books])
         return f'Order processed by: {self.employee}, Date: {self.order_date}, Books: {books_str}'
 
-# Tworzenie obiektów
 library1 = Library("Katowice", "Main St 1", "40-000", "9:00-18:00", "123-456-789")
 library2 = Library("Warszawa", "Second St 5", "00-001", "10:00-19:00", "987-654-321")
 
@@ -61,6 +60,5 @@ employee3 = Employee("Maria", "Lewandowska", "2019-10-30", "1992-12-05", "Katowi
 order1 = Order(employee1, [book1, book2], "2024-10-28")
 order2 = Order(employee2, [book3, book4, book5], "2024-10-29")
 
-# Wyświetlanie zamówień
 print(order1)
 print(order2)
