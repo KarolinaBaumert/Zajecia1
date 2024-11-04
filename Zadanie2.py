@@ -9,6 +9,7 @@ class Library:
     def __str__(self):
         return f'Library in {self.city}, {self.street}, {self.zip_code}. Open: {self.open_hours}. Phone: {self.phone}'
 
+
 class Employee:
     def __init__(self, first_name, last_name, hire_date, birth_date, city, street, zip_code, phone):
         self.first_name = first_name
@@ -23,6 +24,7 @@ class Employee:
     def __str__(self):
         return f'Employee: {self.first_name} {self.last_name}, Hire date: {self.hire_date}, Birth date: {self.birth_date}, Address: {self.street}, {self.city}, {self.zip_code}, Phone: {self.phone}'
 
+
 class Book:
     def __init__(self, library, publication_date, author_name, author_surname, number_of_pages):
         self.library = library
@@ -34,6 +36,7 @@ class Book:
     def __str__(self):
         return f'Book by {self.author_name} {self.author_surname}, Published: {self.publication_date}, Pages: {self.number_of_pages}, Available at: {self.library}'
 
+
 class Order:
     def __init__(self, employee, books, order_date):
         self.employee = employee
@@ -43,6 +46,7 @@ class Order:
     def __str__(self):
         books_str = ', '.join([str(book) for book in self.books])
         return f'Order processed by: {self.employee}, Date: {self.order_date}, Books: {books_str}'
+
 
 library1 = Library("Katowice", "Main St 1", "40-000", "9:00-18:00", "123-456-789")
 library2 = Library("Warszawa", "Second St 5", "00-001", "10:00-19:00", "987-654-321")
