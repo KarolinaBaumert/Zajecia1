@@ -9,6 +9,11 @@ on:
       - python_basic
       
   pull_request:
+      branches:
+        - main
+        - python_oop
+        - python_typing
+        - python_basic
 
 jobs:
   lint:
