@@ -1,7 +1,10 @@
 import requests
 
+
 class Brewery:
-    def __init__(self, id: str, name: str, brewery_type: str, address_1: str, address_2: str, address_3: str,  city: str, state_province: str, postal_code: str, country: str, longitude: str, latitude: str, phone: str, website_url: str, state: str, street: str):
+    def __init__(self, id: str, name: str, brewery_type: str, address_1: str, address_2: str, address_3: str, city: str,
+                 state_province: str, postal_code: str, country: str, longitude: str, latitude: str, phone: str,
+                 website_url: str, state: str, street: str):
         self.id = id
         self.name = name
         self.brewery_type = brewery_type
@@ -24,6 +27,7 @@ class Brewery:
             f"Id: {self.id}, Brewery: {self.name}, Type: {self.brewery_type}, Location: {self.address_1}, {self.address_2}, {self.address_3}, "
             f"City: {self.city}, State province: {self.state_province}, Street: {self.street}, Postal Code: {self.postal_code}, Phone: {self.phone}, "
             f"Website: {self.website_url}, Coordinates: ({self.latitude}, {self.longitude})), Country: {self.country}, State: {self.state}, Street: {self.street}")
+
 
 def get_breweries() -> list:
     url = "https://api.openbrewerydb.org/breweries"
@@ -53,6 +57,7 @@ def get_breweries() -> list:
         breweries.append(brewery)
 
     return breweries
+
 
 breweries = get_breweries()
 for brewery in breweries:
