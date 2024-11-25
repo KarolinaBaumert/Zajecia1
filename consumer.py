@@ -1,52 +1,46 @@
-import csv
 import time
+import sqlite3
 
-
-TASKS_FILE = "tasks.csv"
+DB_FILE = "tutorial.db"
 
 
 def read_tasks():
-    tasks = []
-    try:
-        with open(TASKS_FILE, mode="r") as file:
-            reader = csv.DictReader(file)
-            tasks = [row for row in reader]
-    except FileNotFoundError:
-        print("Brak pliku z zadaniami. Consumer czeka na zadania...")
+    with sqlite3.connect(DB_FILE) as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM tasks WHERE status = 'pending'")
+        tasks = cursor.fetchall()
     return tasks
 
 
 def update_task(task_id, new_status):
-    tasks = read_tasks()
-    with open(TASKS_FILE, mode="w", newline="") as file:
-        writer = csv.DictWriter(file, fieldnames=["id", "description", "status", "created_at"])
-        writer.writeheader()
-        for task in tasks:
-            if task["id"] == task_id:
-                task["status"] = new_status
-            writer.writerow(task)
+    with sqlite3.connect(DB_FILE) as conn:
+        cursor = conn.cursor()
+        cursor.execute("UPDATE tasks SET status = ? WHERE id = ?", (new_status, task_id))
+        conn.commit()
 
 
 def consume_tasks():
-    while True:
-        tasks = read_tasks()
-        pending_tasks = [task for task in tasks if task["status"] == "pending"]
+    try:
+        while True:
+            tasks = read_tasks()
 
-        if pending_tasks:
-            task_to_consume = pending_tasks[0]
-            task_id = task_to_consume["id"]
+            if tasks:
+                task_to_consume = tasks[0]
+                task_id = task_to_consume[0]
 
-            print(f"Praca {task_id} jest przetwarzana...")
-            update_task(task_id, "in_progress")
+                print(f"Praca {task_id} jest przetwarzana...")
+                update_task(task_id, "in_progress")
 
-            time.sleep(30)
+                time.sleep(30)
 
-            update_task(task_id, "done")
-            print(f"Praca {task_id} została wykonana.")
-        else:
-            print("Brak prac do wykonania. Consumer czeka...")
+                update_task(task_id, "done")
+                print(f"Praca {task_id} została wykonana.")
+            else:
+                print("Brak prac do wykonania. Konsument czeka...")
 
-        time.sleep(5)
+            time.sleep(5)
+    except KeyboardInterrupt:
+        print("\nKonsument zatrzymany przez użytkownika.")
 
 
 if __name__ == "__main__":
